@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "name": "Barcelona",
+    "votes": 23
+  },
+  {
+    "id": 2,
+    "name": "San Francisco",
+    "votes": 21
+  },
+  {
+    "id": 3,
+    "name": "Venice",
+    "votes": 19
+  },
+  {
+    "id": 4,
+    "name": "Melbourne",
+    "votes": 18
+  },
+  {
+    "id": 5,
+    "name": "Paris",
+    "votes": 17
+  },
+  {
+    "id": 6,
+    "name": "Seville",
+    "votes": 14
+  },
+  {
+    "id": 7,
+    "name": "Sydney",
+    "votes": 12
+  },
+  {
+    "id": 8,
+    "name": "New York",
+    "votes": 11
+  },
+  {
+    "id": 9,
+    "name": "Krakow",
+    "votes": 9
+  },
+  {
+    "id": 10,
+    "name": "Peoria",
+    "votes": 72
+  },
+  {
+    "id": 11,
+    "name": "Springfield",
+    "votes": 88
+  },
+  {
+    "id": 12,
+    "name": "Kansas City",
+    "votes": 100
+  },
+  {
+    "id": 13,
+    "name": "Tokyo",
+    "votes": 20
+  },
+  {
+    "id": 14,
+    "name": "Boise",
+    "votes": 17
+  },
+  {
+    "id": 15,
+    "name": "Los Angeles",
+    "votes": 14
+  },
+  {
+    "id": 16,
+    "name": "Newark",
+    "votes": 12
+  },
+  {
+    "id": 17,
+    "name": "Chicago",
+    "votes": 11
+  },
+  {
+    "id": 18,
+    "name": "Detroit",
+    "votes": 91
+  },
+  {
+    "id": 19,
+    "name": "Florence",
+    "votes": 4
+  },
+  {
+    "id": 20,
+    "name": "Madrid",
+    "votes": 1
+  },
+  {
+    "id": 21,
+    "name": "London",
+    "votes": 9
+  }
+]

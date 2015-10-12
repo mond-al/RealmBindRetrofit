@@ -1,0 +1,37 @@
+apply plugin: 'android-sdk-manager'
+apply plugin: 'com.android.application'
+apply plugin: 'android-command'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.0"
+
+    defaultConfig {
+        applicationId "io.realm.examples.realmgridview"
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    command {
+        events 2000
+    }
+}
+
+dependencies {
+    compile 'io.realm:realm-android:0.82.2'
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.android.support:cardview-v7:23.0.1'
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'io.realm:realm-android:0.80.3'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+
+
+}
