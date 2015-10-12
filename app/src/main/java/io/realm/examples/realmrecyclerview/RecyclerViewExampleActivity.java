@@ -53,7 +53,7 @@ import retrofit.converter.GsonConverter;
 
 public class RecyclerViewExampleActivity extends Activity {
 
-    public static final String ENDPOINT = "http://test.com";
+    public static final String ENDPOINT = "test.com";
 
     private static final String TAG = "Activity";
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -90,7 +90,7 @@ public class RecyclerViewExampleActivity extends Activity {
         // Load from file "cities.json" first time
         if (mAdapter == null) {
             mAdapter = new CardAdapter(this);
-            RealmResults<City> cities = realm.where(City.class).findAllSorted("id",false);
+            RealmResults<City> cities = realm.where(City.class).findAllSorted(City.DefaultSortField, City.DefaultSortASC);
 
             if (cities.size() > 0) {
                 //This is the recyclerview adapter from realm;
@@ -125,17 +125,25 @@ public class RecyclerViewExampleActivity extends Activity {
                                     .getCityList("update", new Callback<List<City>>() {
                                         @Override
                                         public void success(List<City> cities, Response response) {
-                                            Log.e(TAG, " item Count : " + cities.size());
+                                            long timestamp = System.currentTimeMillis();
                                             realm.beginTransaction();
                                             for(City city : cities){
-                                                city.setTimestamp(System.currentTimeMillis());
+                                                city.setTimestamp(timestamp);
                                             }
                                             Collection<City> updatedCities = realm.copyToRealmOrUpdate(cities);
-                                            Log.e(TAG, " item Updated :" + updatedCities.size());
+                                            Log.e(TAG, " item Updated or Created:" + updatedCities.size());
                                             realm.commitTransaction();
-                                            mAdapter.setData(realm.where(City.class).findAllSorted("id",false));
-                                            mAdapter.notifyDataSetChanged();
-                                            mSwipeRefreshLayout.setRefreshing(false);
+                                            final RealmResults<City> allSorted = realm.where(City.class).findAllSorted(City.DefaultSortField, City.DefaultSortASC);
+                                            mAdapter.setData(allSorted);
+
+                                            mSwipeRefreshLayout.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    mAdapter.notifyDataSetChanged();
+                                                    mSwipeRefreshLayout.setRefreshing(false);
+                                                }
+                                            });
+
                                         }
 
                                         @Override

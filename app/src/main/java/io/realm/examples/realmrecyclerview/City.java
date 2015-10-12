@@ -29,6 +29,14 @@ public class City extends RealmObject {
     private long votes;
     private long timestamp;
 
+    final static public String ID = "id";
+    final static public String NAME = "name";
+    final static public String VOTES = "votes";
+    final static public String TIMESTAMP = "timestamp";
+
+    final static public String DefaultSortField = TIMESTAMP;
+    final static public boolean DefaultSortASC = false;
+
     public String getName() {
         return name;
     }

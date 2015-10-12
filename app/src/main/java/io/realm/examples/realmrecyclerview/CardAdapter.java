@@ -20,6 +20,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     private List<City> cities = null;
     private Context mContext;
     private RecyclerView mAttechedRecyclerView;
+    private int mClickedPosition = -1 ;
 
 
     public CardAdapter(Context context) {
@@ -57,6 +58,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         if (city != null) {
             holder.getTvName().setText(city.getName());
             holder.getTvVotes().setText(Long.toString(city.getVotes()));
+            holder.getTvTimestamp().setText(Long.toString(city.getTimestamp()));
         }
     }
 
@@ -82,16 +84,21 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         Realm realm = Realm.getInstance(getContext());
 
         // Pull all the cities from the realm
-        RealmResults<City> cities = realm.where(City.class).findAll();
+        RealmResults<City> cities = realm.where(City.class).findAllSorted(City.DefaultSortField, City.DefaultSortASC);
 
         // Put these items in the Adapter
         setData(cities);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
+        notifyItemRemoved(mClickedPosition);
+        notifyItemInserted(0);
+        mAttechedRecyclerView.scrollToPosition(0);
         mAttechedRecyclerView.invalidate();
         realm.close();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        TextView mTvTimestamp;
         TextView mTvName;
         TextView mTvVotes;
 
@@ -103,12 +110,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             return mTvVotes;
         }
 
+        public TextView getTvTimestamp() {
+            return mTvTimestamp;
+        }
+
 
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             mTvName = (TextView) itemView.findViewById(R.id.name);
             mTvVotes = (TextView) itemView.findViewById(R.id.votes);
+            mTvTimestamp = (TextView) itemView.findViewById(R.id.timestamp);
         }
 
 
@@ -116,16 +128,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         public void onClick(View v) {
 
             City modifiedCity = (City) getItem(getAdapterPosition());
-
+            mClickedPosition = this.getAdapterPosition();
             // Update the realm object affected by the user
             Realm realm = Realm.getInstance(getContext());
 
             // Acquire the list of realm cities matching the name of the clicked City.
-            City city = realm.where(City.class).equalTo("name", modifiedCity.getName()).findFirst();
+            City city = realm.where(City.class).equalTo(City.ID, modifiedCity.getId()).findFirst();
 
             // Create a transaction to increment the vote count for the selected City in the realm
             realm.beginTransaction();
             city.setVotes(city.getVotes() + 1);
+            city.setTimestamp(System.currentTimeMillis());
             realm.commitTransaction();
             realm.close();
             updateCities();
